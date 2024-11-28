@@ -2,6 +2,7 @@
 
 A simple yet powerful web application for managing tasks and to-do lists, built using PHP and MySQL.
 
+This is a personal project aimed to apply MVC structure and OOP principles in PHP core.
 ---
 
 ## Features
