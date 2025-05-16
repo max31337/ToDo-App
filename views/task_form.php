@@ -16,7 +16,6 @@
                 <textarea name="task_description" class="form-control" placeholder="Description" required style="height: 60px; font-size: 14px;"></textarea>
             </div>
         </div>
-    </div>
 
     <div class="form-row">
         <div class="col-md-6">
