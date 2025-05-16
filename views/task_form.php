@@ -8,6 +8,7 @@
                 <input type="text" name="task_name" class="form-control" placeholder="Task Name" required style="height: 30px; font-size: 14px;">
             </div>
         </div>
+    </div>
 
         <div class="col-md-6">
             <div class="form-group">
