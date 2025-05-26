@@ -18,19 +18,27 @@ class User {
     }
 
     private function isPasswordStrong($password) {
-        return strlen($password) >= 8 && preg_match('/[A-Z]/', $password);
+return strlen($password) >= 8 &&
+       preg_match('/[A-Z]/', $password) &&
+       preg_match('/[a-z]/', $password) &&
+       preg_match('/[0-9]/', $password) &&
+       preg_match('/[^a-zA-Z0-9]/', $password);
     }
 
     public function register($name, $email, $password) {
-        $email = $this->sanitizeEmail($email);
+        $email = strtolower($this->sanitizeEmail($email));
         $name = $this->sanitizeName($name);
 
         if (!$email) {
             return ['success' => false, 'error' => 'Invalid email format'];
         }
 
+        if (strlen($name) > 100 || strlen($email) > 255) {
+            return ['success' => false, 'error' => 'Name or email too long'];
+        }
+
         if (!$this->isPasswordStrong($password)) {
-            return ['success' => false, 'error' => 'Password is too weak'];
+            return ['success' => false, 'error' => 'Password is too weak, Add at least 8 characters, including uppercase, lowercase, numbers, and special characters'];
         }
 
         if ($this->emailExists($email)) {
@@ -68,19 +76,17 @@ class User {
             $stmt->execute();
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($user && password_verify($password, $user['password'])) {
-                // Optionally regenerate session ID here: session_regenerate_id(true);
-                return $user['id'];
-            }
-
-            // Optional: delay to slow brute-force
-            sleep(1);
-        } catch (PDOException $e) {
-            // Log the error if needed
+        if ($user && password_verify($password, $user['password'])) {
+            session_regenerate_id(true);
+            return $user['id'];
         }
-
-        return false;
+        sleep(1);
+    } catch (PDOException $e) {
+        error_log("Login failed: " . $e->getMessage());
     }
+
+    return false;
+}
 
     public function getUserDetailsById($user_id) {
         $query = "SELECT id, name, email FROM " . $this->table . " WHERE id = :user_id";

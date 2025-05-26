@@ -1,5 +1,4 @@
 <?php
-// Example analytics data calculation (replace with real logic as needed)
 $totalTasks = count($tasks);
 $completedTasks = count(array_filter($tasks, fn($t) => $t['completed']));
 $pendingTasks = $totalTasks - $completedTasks;
