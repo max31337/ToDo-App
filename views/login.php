@@ -30,7 +30,9 @@ ob_start();
         <p class="mt-3">Don't have an account? <a href="register.php">Register here</a></p>
     </div>
 </div>
+
 <?php
 $content = ob_get_clean();
 
 include '../views/shared/layout.php';
+?>

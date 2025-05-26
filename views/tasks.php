@@ -1,10 +1,10 @@
-<div>
+<div class="container">
     <h5 class="text-center">Your Tasks</h5>
     <?php if (empty($tasks)): ?>
         <p class="text-center">No tasks available.</p>
     <?php else: ?>
-        <div class="table-responsive d-flex justify-content-center">
-            <table class="table table-bordered table-striped table-sm" style="max-width: 100%; width: 80%; margin: 0 auto;">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th>Task</th>
@@ -23,11 +23,11 @@
                             <td><?php echo $task['due_date']; ?></td>
                             <td>
                                 <?php if (!$task['completed']): ?>
-                                    <a href="?complete_task=<?php echo $task['id']; ?>" class="btn btn-success btn-sm">Mark as Completed</a>
+                                    <a href="?complete_task=<?php echo $task['id']; ?>" class="btn btn-success btn-sm"><i class="fas fa-check"></i> Mark as Completed</a>
                                 <?php else: ?>
-                                    <span class="badge badge-success">Completed</span>
+                                    <span class="badge badge-success btn-like-badge" id="completedBadge-<?php echo $task['id']; ?>">Completed</span>
                                 <?php endif; ?>
-                                <a href="?delete_task=<?php echo $task['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</a>
+                                <a href="?delete_task=<?php echo $task['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i> Delete</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

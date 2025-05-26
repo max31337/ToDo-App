@@ -34,7 +34,9 @@ ob_start();
         <p class="mt-3">Already have an account? <a href="login.php">Login here</a></p>
     </div>
 </div>
+
 <?php
 $content = ob_get_clean();
 
 include '../views/shared/layout.php';
+?>

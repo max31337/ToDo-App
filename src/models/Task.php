@@ -1,6 +1,4 @@
 <?php
-// src/models/Task.php
-
 class Task {
     private $conn;
 

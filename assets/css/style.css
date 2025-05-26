@@ -1,21 +1,14 @@
-html, body {
-    height: 100%;
-    margin: 0;
-}
-
 body {
-    display: flex;
-    flex-direction: column;
-    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
-.main-content {
-    flex: 1;
-}
 
-footer {
-    margin-top: auto; 
-    background-color: #f8f9fa; 
-    text-align: center; 
-    padding: 10px 0; 
+.btn-like-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem; 
+    font-size: 0.875rem;     
+    line-height: 1.5;
+    border-radius: 0.2rem;
+    vertical-align: middle;
 }

@@ -4,17 +4,17 @@ require_once __DIR__ . '/../../src/models/User.php';
 
 class AuthController
 {
-    private $conn;
     private $userModel;
 
     public function __construct()
     {
         $db = new Database();
-        $this->conn = $db->getConnection();
-        $this->userModel = new User($this->conn);
+        $conn = $db->getConnection();
+        $this->userModel = new User($conn);
     }
 
-    public function handleRequest() {
+    public function handleRequest()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action'])) {
             if ($_GET['action'] === 'register') {
                 $this->register($_POST['name'], $_POST['email'], $_POST['password']);
@@ -31,39 +31,35 @@ class AuthController
         if ($user_id) {
             session_start();
             $_SESSION['user_id'] = $user_id;
-            header(header: "Location: ../../views/dashboard.php"); 
+            header("Location: ../../views/dashboard.php");
         } else {
             header("Location: /views/login.php?error=Invalid email or password");
-            exit();
         }
+        exit();
     }
 
     public function register($name, $email, $password) {
-        $query = "SELECT id FROM users WHERE email = :email";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":email", $email);
-
-        if (!$stmt->execute()) {
-            print_r($stmt->errorInfo());
-            exit();
-        }
-
-        if ($stmt->rowCount() > 0) {
-            header("Location: ../../views/register.php?error=Email already exists");
-            exit();
-        }
-
         $result = $this->userModel->register($name, $email, $password);
 
-        if ($result) {
+        if ($result['success']) {
             session_start();
-            $_SESSION['user_id'] = $this->conn->lastInsertId();
-    
+            $_SESSION['user_id'] = $this->userModel->getLastInsertId();
             header("Location: ../../views/dashboard.php");
-            exit();
+        } else {
+            $error = urlencode($result['error']);
+            header("Location: ../../views/register.php?error=$error");
         }
+        exit();
+    }
 
-        header("Location: ../../views/register.php?error=Registration failed");
+
+    public function logout()
+    {
+        session_start();
+        session_unset();
+        session_destroy();
+
+        header("Location: ../public/index.php");
         exit();
     }
 }
@@ -72,4 +68,3 @@ if (isset($_GET['action'])) {
     $authController = new AuthController();
     $authController->handleRequest();
 }
-?>

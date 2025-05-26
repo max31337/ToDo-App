@@ -15,14 +15,5 @@ class UserController
     public function getUserDetailsById($user_id) {
         return $this->userModel->getUserDetailsById($user_id);
     }
-
-    public function logout() {
-        session_start();
-        session_unset();   
-        session_destroy(); 
-
-        header("Location: ../public/index.php");
-        exit();
-    }
 }
 ?>
